@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input id="inpu" type="text" class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button id='btn' type="button" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 style="color:red"id="n"></h1>
+            <h1 id="s">Country Name</h1>
+            <h2 id="a">City Name</h2> 
+            <h3 id="b"><span>Temperature</span>&deg;</h3>
+            <h1 id="c"><span class="lead">Sky Clouds</span></h1>
+        </div>
+    </div>
+<script>
+    const button = document.getElementById('btn');
+    button.addEventListener('click',function(){
+    const inpuA = document.getElementById('inpu').value;
+      
+// weather data from weather server
+
+fetch('https://api.openweathermap.org/data/2.5/weather?q='+inpuA+'&appid=7dd1fc3326d1abd08bebacd69c6e699a')
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            const city = data.name;
+           const tem = data.main.temp;
+           const temperature = tem - 273.15;
+           const temper =temperature.toFixed(2);
+           const skyCondition = data.weather[0].description;
+            const country = data.sys.country;    
+
+             document.getElementById('a').innerText=city;   
+             document.getElementById('b').innerText=temper;   
+             document.getElementById('c').innerText=skyCondition;    
+             document.getElementById('s').innerText=country;    
+        })
+        .catch(err =>{
+            const message = 'Dear User Please Correct City Name Input Me!!!'
+            const newA = document.getElementById('n').innerText = message;
+
+            
+            
+        })
+
+
+    })
+
+   
+    
+
+   
+
+</script>
+</body>
+
+</html>
